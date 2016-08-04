@@ -1,0 +1,535 @@
+==================================================================
+
+
+	
+	private void setUpWaktu() {
+		final TextView vtimer =(TextView)findViewById(R.id.txtTimer);
+        mCountDownTimer = new CountDownTimer(detik, 1000)
+        {
+        	
+            @Override
+            public void onTick(long millisUntilFinished)
+            {
+                // TODO Auto-generated method stub
+               vtimer.setText("Sisa waktu: " +(int) (millisUntilFinished / 60000) +" Menit  "+(millisUntilFinished / 1000)+ " Detik");
+            }
+ 
+            @Override
+            public void onFinish()
+            {
+                // TODO Auto-generated method stub
+                vtimer.setText("Waktu Habis");
+                Toast.makeText(SoalTenses.this, "Waktu Habis",
+                        Toast.LENGTH_SHORT).show();    
+                //btnSelesai(vtimer);
+            }
+        };
+ 
+        mCountDownTimer.start();
+    }
+     
+
+
+===============================================ListSoal===================================================================================
+
+package control;
+
+public class ListSoal {
+	public String id_soal;
+	public String pertanyaan;
+	public String jwbA;
+	public String jwbB;
+	public String jwbC;
+	public String jwbBenar;
+	public String id_tenses;
+	
+	public ListSoal() {
+        super();
+    }
+
+	public ListSoal(String id_tenses2, String pertanyaan2, String a, String b,String c, String jwbBenar2) {
+			this.pertanyaan=pertanyaan2;
+			this.jwbA=a;
+			this.jwbB=b;
+			this.jwbC=c;
+			this.jwbBenar=jwbBenar2;
+			this.id_tenses=id_tenses2;
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getId_soal() {
+		return id_soal;
+	}
+
+	public void setId_soal(String id_soal) {
+		this.id_soal = id_soal;
+	}
+
+	public String getPertanyaan() {
+		return pertanyaan;
+	}
+
+	public void setPertanyaan(String pertanyaan) {
+		this.pertanyaan = pertanyaan;
+	}
+
+	public String getJwbA() {
+		return jwbA;
+	}
+
+	public void setJwbA(String jwbA) {
+		this.jwbA = jwbA;
+	}
+
+	public String getJwbB() {
+		return jwbB;
+	}
+
+	public void setJwbB(String jwbB) {
+		this.jwbB = jwbB;
+	}
+
+	public String getJwbC() {
+		return jwbC;
+	}
+
+	public void setJwbC(String jwbC) {
+		this.jwbC = jwbC;
+	}
+
+	public String getJwbBenar() {
+		return jwbBenar;
+	}
+
+	public void setJwbBenar(String jwbBenar) {
+		this.jwbBenar = jwbBenar;
+	}
+
+	public String getId_tenses() {
+		return id_tenses;
+	}
+
+	public void setId_tenses(String id_tenses) {
+		this.id_tenses = id_tenses;
+	}
+	
+}
+
+
+
+
+
+===========================================================tangan 16/12===Tenses.java=========================================================
+/*hs mengecek apakah button absen atau buka
+				Intent intent = getIntent();
+				String dl1 = (String) intent.getSerializableExtra("kirimdata");
+				
+				if(dl1.equals("absen")){
+					DataList dl = items2.get(arg2);
+					//String listke = String.valueOf(arg2);
+
+					Intent inten = new Intent(getApplicationContext(),Absen.class);
+					//inten.putExtra("arrayList", listke);
+					inten.putExtra("siswa", dl);
+					startActivityForResult(inten, 99);	
+				}else{}*/
+				
+				itemListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+				DataList dl = items2.get(arg2);
+				//String listKe = String.valueOf(arg2);
+				Intent inten = new Intent(getApplicationContext(),IsiTenses.class);
+				//inten.putExtra("arrayList", listKe);
+				inten.putExtra("kirimIsiTenses", dl);
+				startActivityForResult(inten, 99);	
+				
+		
+			}
+		});
+	}
+	
+
+========================================================Backup Soal 1/tangga 12/15=========SoalTenses============================================================
+	public void getDataById_tenses(String id) {
+		try {
+			arrayMahasiswa = new JSONArray(control.getSoalById_tenses(id));
+			
+				JSONObject jsonChildNode = arrayMahasiswa.getJSONObject(0);
+				String id_tenses = jsonChildNode.optString("id_soal");
+				String pertanyaan = jsonChildNode.optString("pertanyaan");
+				String a = jsonChildNode.optString("jwb_a");
+				String b = jsonChildNode.optString("jwb_b");
+				String c = jsonChildNode.optString("jwb_c");
+				String jwbBenar = jsonChildNode.optString("jwb_benar");
+				soal.insertData(id_tenses, pertanyaan, a, b, c, jwbBenar);
+				
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void getDataById_tenses(String id) {
+		try {
+			arrayMahasiswa = new JSONArray(control.getSoalById_tenses(id));
+			
+				JSONObject jsonChildNode = arrayMahasiswa.getJSONObject(0);
+				String id_tenses = jsonChildNode.optString("id_soal");
+				String pertanyaan = jsonChildNode.optString("pertanyaan");
+				String a = jsonChildNode.optString("jwb_a");
+				String b = jsonChildNode.optString("jwb_b");
+				String c = jsonChildNode.optString("jwb_c");
+				String jwbBenar = jsonChildNode.optString("jwb_benar");
+				
+				TextView soal=(TextView)findViewById(R.id.lblPertanyaan1);
+			    soal.setText(pertanyaan);
+			    
+			    RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+				int idrgb = rgbsoal.getCheckedRadioButtonId();
+				
+			    RadioButton rbA= (RadioButton) this.findViewById(R.id.rbA);
+			    rbA.setText(a);
+			    RadioButton rbB= (RadioButton) this.findViewById(R.id.rbB);
+			    rbB.setText(b);
+			    RadioButton rbC= (RadioButton) this.findViewById(R.id.rbC);
+			    rbC.setText(c);
+			      
+			    TextView txtJwb=(TextView)findViewById(R.id.txtJwbBenar);
+			    txtJwb.setText(jwbBenar);
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+
+
+	public void cekSoal(){
+
+		RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+		int idrgb = rgbsoal.getCheckedRadioButtonId();
+
+		TextView txtJwb=(TextView)findViewById(R.id.txtJwbBenar);
+		
+		
+		if((idrgb==R.id.rbA)&&(txtJwb.getText().toString().equals("a"))){
+	       	 Benar++;
+	    }else if((idrgb==R.id.rbB) && (txtJwb.getText().toString().equals("b"))){
+	       	 
+	       	 Benar++;
+	       	 
+	    }else if((idrgb==R.id.rbC) && (txtJwb.getText().toString().equals("c"))){
+	       	Benar++;
+	       	 
+	    }else{
+	    	Salah++;
+	    }
+	}
+	
+	public void btnNext(View bebas){
+		TextView soal=(TextView)findViewById(R.id.lblPertanyaan1);
+		RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+		int idrgb = rgbsoal.getCheckedRadioButtonId();
+		RadioButton rbA= (RadioButton) this.findViewById(R.id.rbA);
+		RadioButton rbB= (RadioButton) this.findViewById(R.id.rbB);
+		RadioButton rbC= (RadioButton) this.findViewById(R.id.rbC);
+		TextView txtJwb=(TextView)findViewById(R.id.txtJwbBenar);
+		
+		Intent intent = getIntent();
+		DataList dl = (DataList) intent.getSerializableExtra("kirimIsiTenses");
+		String data = (String) intent.getSerializableExtra("nama");
+		
+		try {
+			arrayMahasiswa = new JSONArray(control.getSoalById_tenses(dl.id_tenses));
+			
+			if ( index < arrayMahasiswa.length()-1) {
+				
+				//cekSoal();
+				
+				Skor=Skor + Benar;
+				AlertDialog dialog = new AlertDialog.Builder(this).create();
+				dialog.setMessage("Benar: "+Benar+" Salah :"+Salah+" Index: "+index+""+arrayMahasiswa.length());
+				dialog.show();
+				index++;
+				
+				JSONObject jsonChildNode = arrayMahasiswa.getJSONObject(index);
+				String id_tenses = jsonChildNode.optString("id_soal");
+				String pertanyaan = jsonChildNode.optString("pertanyaan");
+				String a = jsonChildNode.optString("jwb_a");
+				String b = jsonChildNode.optString("jwb_b");
+				String c = jsonChildNode.optString("jwb_c");
+				String jwbBenar = jsonChildNode.optString("jwb_benar");
+				
+				soal.setText(pertanyaan);
+		        rbA.setText(a);
+		        rbB.setText(b);
+		        rbC.setText(c);
+		        txtJwb.setText(jwbBenar);
+		         
+			}else{
+		        AlertDialog dialog = new AlertDialog.Builder(this).create();
+				dialog.setMessage(data+" Kamu Mendapat : "+Skor+"\nJumlah Soal Yang salah: "+Salah+"\nJumlah Soal Yang Benar: "+Benar);
+				dialog.show();
+			}
+		}catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+-------------------------------------------------------------soal1-------------------------------------------------------------------------	
+	package tk.herys.uas_tenses_1211501224;
+
+	import java.util.ArrayList;
+
+	import control.DataListSoal;
+	import control.ListSoal;
+	import android.app.Activity;
+	import android.app.AlertDialog;
+	import android.os.Bundle;
+	import android.text.InputFilter.LengthFilter;
+	import android.view.View;
+	import android.widget.Button;
+	import android.widget.RadioButton;
+	import android.widget.RadioGroup;
+	import android.widget.TextView;
+	import android.widget.Toast;
+
+	public class SoalTenses extends Activity {
+		
+		String vpertanyaan[]={"Pertanyaan Pertama","Pertanyaan Kedua","Pertanyaan Ketiga"};
+		String va[]={"a","a","a"};
+		String vb[]={"b","b","b"};
+		String vc[]={"c","c","c"};
+		String vjwbBenar[]={"A","B","A"};
+		
+		ArrayList<DataListSoal> datasoal;
+		
+		int  index = 0,Benar=0,Salah=0,Skor=0;
+		protected void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.row_soal);
+	        
+	        TextView soal=(TextView)findViewById(R.id.lblPertanyaan1);
+	        soal.setText(vpertanyaan[0]);
+	        
+	        RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+			int idrgb = rgbsoal.getCheckedRadioButtonId();
+			
+			RadioButton rbA= (RadioButton) this.findViewById(R.id.rbA);
+			rbA.setText(va[0]);
+			RadioButton rbB= (RadioButton) this.findViewById(R.id.rbB);
+			rbB.setText(vb[0]);
+			RadioButton rbC= (RadioButton) this.findViewById(R.id.rbC);
+			rbC.setText(vc[0]);
+		
+	  }
+		
+
+
+	public void btnNext(View bebas){
+		TextView soal=(TextView)findViewById(R.id.lblPertanyaan1);
+		
+		RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+		int idrgb = rgbsoal.getCheckedRadioButtonId();
+		
+		RadioButton rbA= (RadioButton) this.findViewById(R.id.rbA);
+		RadioButton rbB= (RadioButton) this.findViewById(R.id.rbB);
+		RadioButton rbC= (RadioButton) this.findViewById(R.id.rbC);
+		
+		
+		if (index < vjwbBenar.length-1)
+	    {
+			if((idrgb==R.id.rbA)&&(vjwbBenar[index].equals("A"))){
+	       	 
+	       	 Toast.makeText(getBaseContext(), rbA.getText(), Toast.LENGTH_LONG).show();
+	       	 Skor = Benar++;
+	       	 
+	        }else if((idrgb==R.id.rbB) && (vjwbBenar[index].equals("B"))){
+	  
+	       	 Toast.makeText(getBaseContext(), rbB.getText(), Toast.LENGTH_LONG).show();
+	       	 Skor = Benar++;
+	        
+	        }else if((idrgb==R.id.rbC) && (vjwbBenar[index].equals("C"))){
+	       	 
+	       	 Toast.makeText(getBaseContext(), rbC.getText(), Toast.LENGTH_LONG).show();
+	       	 Skor = Benar++;
+	       	 
+	        }else{
+	       	 Salah++;
+	        }
+	        
+	        Skor=Skor + Benar;
+	        AlertDialog dialog = new AlertDialog.Builder(this).create();
+			dialog.setMessage("Hasil : "+Benar+" Salah"+Salah +","+index);
+			dialog.show();
+			
+			index++;
+	         soal.setText(vpertanyaan[index]);
+	         rbA.setText(va[index]);
+	         rbB.setText(vb[index]);
+	         rbC.setText(vc[index]);
+
+	         
+	    }else{
+	    	AlertDialog dialog = new AlertDialog.Builder(this).create();
+	 		dialog.setMessage("Skor Anda "+Skor);
+	 		dialog.show();
+	    }
+	}
+
+
+	}
+------------------------------------------------------soal------------------------------------------------------------------------------
+
+
+/*package tk.herys.uas_tenses_1211501224;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import control.Control;
+import control.DataAdapterSoal;
+import control.DataList;
+import control.DataListSoal;
+
+import android.R.integer;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class Soal extends Activity {
+	
+	Control control = new Control();
+	JSONArray arrayMahasiswa;
+	
+	ArrayList<DataListSoal> items2 = new ArrayList<DataListSoal>();
+	DataAdapterSoal adapter;
+	ArrayList<DataListSoal> tampung;
+	
+	
+	@Override
+	protected void onStart(){
+		super.onStart();
+		Intent intent = getIntent();
+		DataList dl = (DataList) intent.getSerializableExtra("kirimIsiTenses");
+		
+		getDataById_tenses(dl.id_tenses);
+		Toast.makeText(getBaseContext(), dl.id_tenses, Toast.LENGTH_LONG).show();
+	}
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.soal);	
+
+		adapter = new DataAdapterSoal(this,R.layout.row_soal, items2);
+		
+		ListView itemListView = (ListView) this.findViewById(R.id.listViewSoal);
+		itemListView.setAdapter(adapter);
+
+	}
+	
+
+	public void getDataById_tenses(String nim) {
+		try {
+			arrayMahasiswa = new JSONArray(control.getSoalById_tenses(nim));
+			for (int i = 0; i < arrayMahasiswa.length(); i++) {
+				JSONObject jsonChildNode = arrayMahasiswa.getJSONObject(i);
+				String id_tenses = jsonChildNode.optString("id_soal");
+				String pertanyaan = jsonChildNode.optString("pertanyaan");
+				String a = jsonChildNode.optString("jwb_a");
+				String b = jsonChildNode.optString("jwb_b");
+				String c = jsonChildNode.optString("jwb_c");
+				String jwbBenar = jsonChildNode.optString("jwb_benar");
+				
+				items2.add(new DataListSoal(id_tenses,pertanyaan, a,b,c,jwbBenar));	
+				//Toast.makeText(getBaseContext(), id_tenses, Toast.LENGTH_LONG).show();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void actionSoal (View getView) {
+		
+
+		/*
+		RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+		int idrgb = rgbsoal.getCheckedRadioButtonId();
+		
+		String nilai ;
+		if(idrgb==R.id.rbA){
+			nilai="Anda Pilih A";
+			Toast.makeText(getBaseContext(), nilai, Toast.LENGTH_LONG).show();
+		}else if(idrgb==R.id.rbB){
+			nilai="Anda Pilih B";
+			Toast.makeText(getBaseContext(), nilai, Toast.LENGTH_LONG).show();
+		}else{
+			nilai="Anda Pilih C";
+			Toast.makeText(getBaseContext(), nilai, Toast.LENGTH_LONG).show();
+		}
+		
+		*/
+		//radio buton
+		
+		//TextView perta = (TextView) this.findViewById(R.id.lblPertanyaan1);
+		//String tanya = perta.getText().toString();
+		//int tanya1 = perta.getId();
+		//Toast.makeText(getBaseContext(), tanya1, Toast.LENGTH_LONG).show(); 
+		
+		/*for(int i = 0; i < items2.size(); i++){
+				Toast.makeText(getBaseContext(), "Benar Items"+data.getId_soal().toString(), Toast.LENGTH_LONG).show();  
+			
+		}
+		DataListSoal dl = tampung.get(2);
+		
+		 for(DataListSoal barang:items2){	
+			 	TextView perta = (TextView) this.findViewById(R.id.lblPertanyaan1);
+				String tanya = perta.getText().toString();
+				String idtanya = perta.getTag().toString();
+				/*RadioGroup rgbsoal = (RadioGroup) this.findViewById(R.id.rgJwb);
+				int idrgb = rgbsoal.getCheckedRadioButtonId();
+				RadioButton rbA1 = (RadioButton) this.findViewById(R.id.rbA);
+				String rbA11= rbA1.getText().toString();
+				RadioButton rbA2 = (RadioButton) this.findViewById(R.id.rbB);
+				String rbA22= rbA2.getText().toString();
+				RadioButton rbA3 = (RadioButton) this.findViewById(R.id.rbC);
+				String rbA33= rbA3.getText().toString();
+				
+			if(tanya==barang.getPertanyaan()){
+				 Toast.makeText(getBaseContext(), tanya+"Benar "+barang.getId_soal(), Toast.LENGTH_LONG).show();  
+			 }else{
+				 Toast.makeText(getBaseContext(), tanya+"Salah "+barang.getId_soal(), Toast.LENGTH_LONG).show();  
+			 }
+			 
+			 Toast.makeText(getBaseContext(), "Benar "+barang.getId_soal()+"Pertanyaan"+idtanya, Toast.LENGTH_LONG).show();  
+		 }  
+
+		//hs
+	}
+	

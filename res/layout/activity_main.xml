@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/verb_tenses"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="tk.herys.uas_tenses_1211501224.MainActivity" >
+
+    <Button
+        android:id="@+id/actionLatihanSoal"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="171dp"
+        android:background="@drawable/btn_tenses"
+        android:onClick="actionTenses" />
+
+    <Button
+        android:id="@+id/btnSelesai"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/actionLatihanSoal"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_about"
+        android:onClick="actionAbout" />
+
+</RelativeLayout>
